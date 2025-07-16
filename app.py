@@ -68,9 +68,9 @@ ld_ratio = CL / CD
 # Characteristic speeds
 stall_speed = np.sqrt((2 * W) / (rho * wing_area * cl_max))
 cruise_idx = np.argmax(range_km)
-loiter_idx = np.argmax(endurance_min)
+valid_idx = V >= stall_speed
+loiter_speed = V[valid_idx][np.argmax(endurance_min[valid_idx])]
 cruise_speed = V[cruise_idx]
-loiter_speed = V[loiter_idx]
 
 # General Stats
 st.subheader("General Stats")
