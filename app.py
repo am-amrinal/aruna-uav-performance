@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import json
 
 st.set_page_config(layout="wide")
-st.title("🛰️ UAV Performance Dashboard - Titan Style")
+st.title("UAV Performance Dashboard - ARUNA")
 
 # Sidebar Load Config
 st.sidebar.header("Load Configuration")
