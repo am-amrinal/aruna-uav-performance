@@ -57,12 +57,17 @@ CD = cd0 + CL**2 / (np.pi * e * aspect_ratio)
 D = 0.5 * rho * wing_area * V**2 * CD
 P = D * V / efficiency
 endurance_hr = battery_capacity / P
-range_km = endurance_hr * V / 3.6
+range_km = endurance_hr * V * 3.6
 endurance_min = endurance_hr * 60
 eff_whkm = (P * 3.6) / V
 climb_rate = (2500 - P) / W
 climb_rate = np.maximum(climb_rate, 0)
-aoa = np.degrees(np.arctan(CL / 2))
+
+# Revised AoA estimation
+CL_0 = 0.2
+CL_alpha_deg = 0.11  # per degree
+aoa = (CL - CL_0) / CL_alpha_deg
+
 ld_ratio = CL / CD
 
 # Characteristic speeds
@@ -129,3 +134,4 @@ for i in range(4):
 st.subheader("Export")
 csv = df.to_csv(index=False).encode("utf-8")
 st.download_button("📥 Download All Performance Data", csv, file_name=f"{uav_name}_performance.csv", mime="text/csv")
+
