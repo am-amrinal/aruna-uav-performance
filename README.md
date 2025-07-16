@@ -1,4 +1,4 @@
-# UAV Performance Dashboard (ARUNA Style)
+# UAV Performance Dashboard (ARUNA)
 
 
 ## 🎯 Fitur:
