@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 2. Jalankan dashboard:
 ```bash
-streamlit run uav_dashboard_titan_style.py
+app.py
 ```
 
 3. Akses di browser (default: http://localhost:8501)
