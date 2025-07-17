@@ -24,6 +24,7 @@ wingspan = st.sidebar.number_input("Wingspan (m)", 0.5, 10.0, config.get("wingsp
 wing_area = st.sidebar.number_input("Wing Area (m²)", 0.1, 5.0, config.get("wing_area", 0.4513))
 aspect_ratio = st.sidebar.number_input("Aspect Ratio", 2.0, 30.0, config.get("aspect_ratio", round(wingspan**2 / wing_area, 2)))
 cl_max = st.sidebar.number_input("CL_max", 0.5, 2.5, config.get("cl_max", 1.5))
+cl_cruise = st.sidebar.number_input("Target CL_cruise", 0.4, 1.2, config.get("cl_cruise", 0.65))
 cd0 = st.sidebar.number_input("CD₀", 0.010, 0.080, config.get("cd0", 0.022))
 efficiency = st.sidebar.number_input("Prop+Motor Efficiency", 0.2, 1.0, config.get("efficiency", 0.65))
 battery_capacity = st.sidebar.number_input("Battery Capacity (Wh)", 100, 5000, config.get("battery_capacity", 600))
@@ -38,6 +39,7 @@ if st.sidebar.button("💾 Save Current Config"):
         "wing_area": wing_area,
         "aspect_ratio": aspect_ratio,
         "cl_max": cl_max,
+        "cl_cruise": cl_cruise,
         "cd0": cd0,
         "efficiency": efficiency,
         "battery_capacity": battery_capacity
@@ -60,7 +62,7 @@ endurance_hr = battery_capacity / P
 range_km = endurance_hr * V * 3.6
 endurance_min = endurance_hr * 60
 eff_whkm = (P * 3.6) / V
-climb_rate = (2500 - P) / W
+climb_rate = (2000 - P) / W
 climb_rate = np.maximum(climb_rate, 0)
 
 # Revised AoA estimation
@@ -72,10 +74,9 @@ ld_ratio = CL / CD
 
 # Characteristic speeds
 stall_speed = np.sqrt((2 * W) / (rho * wing_area * cl_max))
-cruise_idx = np.argmax(range_km)
-valid_idx = V >= stall_speed
-loiter_speed = V[valid_idx][np.argmax(endurance_min[valid_idx])]
-cruise_speed = V[cruise_idx]
+cruise_speed = np.sqrt((2 * W) / (rho * wing_area * cl_cruise))
+k = 1 / (np.pi * e * aspect_ratio)
+loiter_speed = np.sqrt((2 * W) / (rho * wing_area)) * np.sqrt(k / cd0)
 
 # General Stats
 st.subheader("General Stats")
