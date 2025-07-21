@@ -7,7 +7,9 @@ from PIL import Image
 
 # Load and show logo
 logo = Image.open("logo.png")
-st.image(logo, use_column_width=False, width=250)
+col_logo, col_spacer = st.columns([5, 1])
+with col_spacer:
+    st.image(logo, width=100)
 
 st.set_page_config(layout="wide")
 st.title("UAV Performance Dashboard - ARUNA")
