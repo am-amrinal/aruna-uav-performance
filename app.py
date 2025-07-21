@@ -3,6 +3,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import json
+from PIL import Image
+
+# Load and show logo
+logo = Image.open("logo.png")
+st.image(logo, use_column_width=False, width=250)
 
 st.set_page_config(layout="wide")
 st.title("UAV Performance Dashboard - ARUNA")
